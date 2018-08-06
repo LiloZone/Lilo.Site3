@@ -3606,3 +3606,12 @@ img.network-img {
     align-content: center; 
     align-items: center
 }
+
+/* ==================================================
+   10. MailChimp
+================================================== */
+.newsletter {
+	color: black;
+	padding: 30px 0 0 0;
+}
+
