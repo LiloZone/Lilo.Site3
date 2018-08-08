@@ -166,7 +166,7 @@
                                     </div>
                                     <span class="label label-success">Chegando</span>
                                     <h3>
-                                        <a href="{{eventos.ingresso}}">{{eventos.titulo}}</a>
+                                        <a href="javascript:;" onclick="PagSeguroLightbox('{{eventos.ingresso}}')">{{eventos.titulo}}</a>
                                     </h3>
                                     <h5>{{eventos.sinopse}}</h5>
                                     <h5>{{eventos.mestre}}</h5>
@@ -179,7 +179,7 @@
                                     <div class="post-actions">
                                         <!-- <a href="{{eventos.ingresso}}" class="btn btn-primary">Reserve Online</a> -->
                                         <!-- INICIO FORMULARIO BOTAO PAGSEGURO -->
-                                        <form action="https://pagseguro.uol.com.br/checkout/v2/payment.html" method="post" onsubmit="PagSeguroLightbox(this); return false;">
+                                        <form id={{eventos.ingresso}} action="https://pagseguro.uol.com.br/checkout/v2/payment.html" method="post" onsubmit="PagSeguroLightbox(this); return false;">
                                             <!-- NÃO EDITE OS COMANDOS DAS LINHAS ABAIXO -->
                                             <input type="hidden" name="code" value={{eventos.ingresso}} />
                                             <input type="hidden" name="iot" value="button" />
