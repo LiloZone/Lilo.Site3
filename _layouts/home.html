@@ -156,7 +156,7 @@
                         <ul class="isotope-grid isotope events-grid grid-list" style="padding: 0" data-sort-id="grid">
                             {% for eventos in site.data.eventos %}
                             <li class="col-md-4 col-sm-4 grid-item format-standard evento-item evento-mes-{{eventos.mes}}">
-                                {% if eventos.ingresso == null %}
+                                {% if eventos.ingresso == null or eventos.Status != "Chegando" %}
                                     <img src="images/{{eventos.imagem}}.jpg" alt="">
                                 {% else %}
                                     <a href="javascript:;" onclick="PagSeguroLightbox('{{eventos.ingresso}}')" class="media-box grid-featured-img">
@@ -168,9 +168,13 @@
                                         <span class="date">{{eventos.dia1}}</span>
                                         <span class="month">{{eventos.mes}}</span>
                                     </div>
-                                    <span class="label label-success">Chegando</span>                                    
+                                    {% if eventos.Status != "Chegando" %}
+                                        <span style="background-color: grey" class="label label-success">{{eventos.Status}}</span>
+                                    {% else %}
+                                        <span class="label label-success">{{eventos.Status}}</span>
+                                    {% endif %}
                                     <h3>
-                                        {% if eventos.ingresso == null %}
+                                        {% if eventos.ingresso == null or eventos.Status != "Chegando" %}
                                             {{eventos.titulo}}
                                         {% else %}
                                             <a href="javascript:;" onclick="PagSeguroLightbox('{{eventos.ingresso}}')">{{eventos.titulo}}</a>
@@ -186,20 +190,23 @@
                                     </div>
                                     <div class="post-actions">
                                         <!-- <a href="{{eventos.ingresso}}" class="btn btn-primary">Reserve Online</a> -->
-                                        {% if eventos.ingresso == null %}
-                                            <h3>Compareça!</h3>
-                                        {% else %}
-                                            <!-- INICIO FORMULARIO BOTAO PAGSEGURO -->
-                                            <form id={{eventos.ingresso}} action="https://pagseguro.uol.com.br/checkout/v2/payment.html" method="post" onsubmit="PagSeguroLightbox(this); return false;">
-                                                <!-- NÃO EDITE OS COMANDOS DAS LINHAS ABAIXO -->
-                                                <input type="hidden" name="code" value={{eventos.ingresso}} />
-                                                <input type="hidden" name="iot" value="button" />
-                                                <input type="image" src="https://stc.pagseguro.uol.com.br/public/img/botoes/pagamentos/209x48-comprar-assina.gif" name="submit"
-                                                    alt="Pague com PagSeguro - é rápido, grátis e seguro!" />
-                                            </form>
-                                            <script type="text/javascript" src="https://stc.pagseguro.uol.com.br/pagseguro/api/v2/checkout/pagseguro.lightbox.js"></script>
-                                            <!-- FINAL FORMULARIO BOTAO PAGSEGURO -->
-                                        {% endif %}
+                                        <!-- Evento está para vir -->
+                                        {% if eventos.Status == "Chegando" %}
+                                            {% if eventos.ingresso == null %}
+                                                <h3>Compareça!</h3>
+                                            {% else %}
+                                                <!-- INICIO FORMULARIO BOTAO PAGSEGURO -->
+                                                <form id={{eventos.ingresso}} action="https://pagseguro.uol.com.br/checkout/v2/payment.html" method="post" onsubmit="PagSeguroLightbox(this); return false;">
+                                                    <!-- NÃO EDITE OS COMANDOS DAS LINHAS ABAIXO -->
+                                                    <input type="hidden" name="code" value={{eventos.ingresso}} />
+                                                    <input type="hidden" name="iot" value="button" />
+                                                    <input type="image" src="https://stc.pagseguro.uol.com.br/public/img/botoes/pagamentos/209x48-comprar-assina.gif" name="submit"
+                                                        alt="Pague com PagSeguro - é rápido, grátis e seguro!" />
+                                                </form>
+                                                <script type="text/javascript" src="https://stc.pagseguro.uol.com.br/pagseguro/api/v2/checkout/pagseguro.lightbox.js"></script>
+                                                <!-- FINAL FORMULARIO BOTAO PAGSEGURO -->
+                                            {% endif %}
+                                        {% endif %}                                        
                                     </div>
                                 </div>
                             </li>
