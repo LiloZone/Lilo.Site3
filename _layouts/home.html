@@ -102,7 +102,7 @@
                 </h2>
             </div>
 
-            <div class="text-left" style="font-size: 24px; line-height: 1em; min-height: 20em; font-family: Gill-Normal">
+            <div class="text-left" style="font-size: 1.5em; line-height: 1em; min-height: 20em; font-family: Gill-Normal">
                 <div class="col-md-3 col-sm-3 square-about-black">
                     <h2>OFICINAS</h2>
                     <p>Seguindo o propósito de viabilizar experiências lúdicas com tecnologia de modo acessível, oferecemos
@@ -156,13 +156,86 @@
                         <ul class="isotope-grid isotope events-grid grid-list" style="padding: 0" data-sort-id="grid">
                             {% for eventos in site.data.eventos %}
                             <li class="col-md-4 col-sm-4 grid-item format-standard evento-item evento-mes-{{eventos.mes}}">
-                                {% if eventos.ingresso == null or eventos.Status != "Chegando" %}
+                                <a class="media-box grid-featured-img" data-toggle="modal" data-target="#evento_{{forloop.index}}">
                                     <img src="images/{{eventos.imagem}}.jpg" alt="">
-                                {% else %}
-                                    <a href="javascript:;" onclick="PagSeguroLightbox('{{eventos.ingresso}}')" class="media-box grid-featured-img">
-                                        <img src="images/{{eventos.imagem}}.jpg" alt="">
-                                    </a>
-                                {% endif %}
+                                </a>
+
+                                <!-- Modal -->
+                                <div style="text-align: center;" class="modal fade" id="evento_{{forloop.index}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                                    <div class="modal-dialog modal-dialog-centered" style="display: inline-block; text-align: left; vertical-align: middle" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLongTitle">{{eventos.titulo}}</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="margin-top: -16px">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                        </div>
+                                        <div class="modal-body text-left" style="display: flex; align-items: center; justify-content: center; flex-direction: column">
+                                            <!-- Imagem -->
+                                            {% if eventos.imagem %}
+                                                <img class="margin-30" width="60%" src="images/{{eventos.imagem}}.jpg" alt="">
+                                            {% endif %}
+
+                                            <!-- Conteudo -->
+                                            {% if eventos.conteudo %}
+                                            <div style="align-self: flex-start">
+                                                <h3>Conteúdo: </h3>
+                                                <p style="font-family: Gill-Normal, sans-serif; color: #333">{{eventos.conteudo}}</p>
+                                            </div>
+                                            {% endif %}
+                                            
+                                            <!-- Obs -->
+                                            {% if eventos.obs %}
+                                            <div style="align-self: flex-start">
+                                                <h3>Observações: </h3>
+                                                <p style="font-family: Gill-Normal, sans-serif; color: #333">{{eventos.obs}}</p>
+                                            </div>
+                                            {% endif %}
+                                            
+                                            <!-- Mestre -->
+                                            {% if eventos.mestre %}
+                                            <div style="align-self: flex-start">
+                                                <h3>Mestre: </h3>
+                                                <p style="font-family: Gill-Normal, sans-serif; color: #333">{{eventos.mestre}}</p>
+                                            </div>
+                                            {% endif %}
+
+                                            <!-- Minibio -->
+                                            {% if eventos.minibio %}
+                                            <div style="align-self: flex-start">
+                                                <h3>Minibio: </h3>
+                                                <p style="font-family: Gill-Normal, sans-serif; color: #333">{{eventos.minibio}}</p>
+                                            </div>
+                                            {% endif %}
+
+                                            <!-- Botão Pagamento -->
+                                            <div class="post-actions">
+                                                <!-- <a href="{{eventos.ingresso}}" class="btn btn-primary">Reserve Online</a> -->
+                                                <!-- Evento está para vir -->
+                                                {% if eventos.Status == "Chegando" %}
+                                                    {% if eventos.ingresso == null %}
+                                                        <h3>Compareça!</h3>
+                                                    {% else %}
+                                                        <!-- INICIO FORMULARIO BOTAO PAGSEGURO -->
+                                                        <form id={{eventos.ingresso}} action="https://pagseguro.uol.com.br/checkout/v2/payment.html" method="post" onsubmit="PagSeguroLightbox(this); return false;">
+                                                            <!-- NÃO EDITE OS COMANDOS DAS LINHAS ABAIXO -->
+                                                            <input type="hidden" name="code" value={{eventos.ingresso}} />
+                                                            <input type="hidden" name="iot" value="button" />
+                                                            <input type="image" src="https://stc.pagseguro.uol.com.br/public/img/botoes/pagamentos/209x48-comprar-assina.gif" name="submit"
+                                                                alt="Pague com PagSeguro - é rápido, grátis e seguro!" />
+                                                        </form>
+                                                        <script type="text/javascript" src="https://stc.pagseguro.uol.com.br/pagseguro/api/v2/checkout/pagseguro.lightbox.js"></script>
+                                                        <!-- FINAL FORMULARIO BOTAO PAGSEGURO -->
+                                                    {% endif %}
+                                                {% endif %}                                        
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+                                        </div>
+                                    </div>
+                                    </div>
+                                </div>
                                 <div class="grid-item-content">
                                     <div class="event-time">
                                         <span class="date">{{eventos.dia1}}</span>
